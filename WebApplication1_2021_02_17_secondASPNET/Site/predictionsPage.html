@@ -1,0 +1,80 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+</head>
+<body style="background-color:dodgerblue">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+
+
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/">Predictions.com</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarText">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="/">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/answers">Predictions</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/adminPage">Administrators room</a>
+                    </li>
+
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div id="answerPlace" style="        margin-top: 30%;
+        margin-left: 35%;
+        margin-right: 35%;
+        color: yellow;
+        font-size: 25px;
+        font-family: cursive;
+        font-style: inherit;
+        text-align:center">
+        Вот marin-top div!  ☀
+    </div>
+
+    <script>
+        window.onload = function () {
+            GetPrediction();
+            GetPerdiction2()
+        };
+        function GetPrediction()
+        {
+            //let answerPlace = document.getElementById("answerPlace");
+            //var answer = await fetch("/get_random_prediction?testlolTet");
+            //var response = await answer.text();            
+            var responsePromice = fetch("/getAnswers");
+            responsePromice.then((response) =>
+            {
+                var resp = response.text();
+                resp.then((response2) => {
+                    answerPlace.innerHTML += "<div>" + response2 + "</div>";
+                });
+            });
+        };
+        function GetPerdiction2() {
+            fetch("/getAnswers").then((resp) => {
+                resp.text().then((response) => {
+                    let answerPlace = document.getElementById("answerPlace");
+                    answerPlace.textContent = answerPlace.textContent.replace("Вот", "*Засекречено*");
+                    answerPlace.innerHTML += "<div>" + response + "</div>";
+                });
+            }); 
+        }
+    </script>
+
+    <!--<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js" integrity="sha384-q2kxQ16AaE6UbzuKqyBE9/u/KzioAlnx2maXQHiDX9d4/zp8Ok3f+M7DPm+Ib6IU" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.min.js" integrity="sha384-pQQkAEnwaBkjpqZ8RU1fF1AKtTcHJwFl3pblpTlHXybJjHpMYo79HY3hIi4NKxyj" crossorigin="anonymous"></script>-->
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
+</body>
+</html>

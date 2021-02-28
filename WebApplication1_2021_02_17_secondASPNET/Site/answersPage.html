@@ -1,0 +1,80 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+</head>
+<body style="background-color:dodgerblue">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/">Predictions.com</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarText">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="/">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/answers">Predictions</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/predictions">Predictions morning</a>
+                    </li>
+
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+
+    <div style="        margin-top: 7%;
+        margin-left: 5%;
+        margin-right: 5%;
+        color: yellow;
+        font-size: 20px;
+        font-family: cursive;
+        font-style: inherit;
+        text-align:center">
+        ☀
+        <br />
+        <div class="input-group mb-3"
+             style="width:96%;
+                ">
+            <span class="input-group-text">Question: </span>
+            <input type="text" class="form-control" placeholder="Your question" aria-label="Your question" aria-describedby="button-addon2"
+                   id="inputer">
+            <button class="btn btn-outline-secondary btn-warning" type="button" id="button-addon2" onclick="OnClick()">Ask</button>
+        </div>
+        <br />
+        <div class="input-group mb-3"
+             style="width:96%;
+                ">
+            <span class="input-group-text">Answer: </span>
+            <input type="text" class="form-control" placeholder="Answer to your question" aria-label="Answer to your question" aria-describedby="button-addon2"
+                   id="answerer">
+            <button class="btn btn-outline-secondary btn-warning" type="button" id="button-addon2">Admit it!</button>
+        </div>
+    </div>
+
+    <script>
+        window.onload = function () {
+        };
+        async function OnClick() {
+            var getResponse = await fetch("/getAnswers");
+            var wheretoanswer = document.getElementById("answerer");
+            var wheretoquestion = document.getElementById("inputer");
+            if (wheretoquestion.value != "") {
+                var answ = await getResponse.text();
+                wheretoanswer.value = answ;
+            }
+            else {
+                wheretoanswer.value = "There is no answer without a question.";
+            }
+        };
+    </script>
+</body>
+</html>

@@ -1,0 +1,246 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+    <style>
+    body {
+        margin: 0;
+        overflow: hidden;
+    }
+    </style>
+</head>
+<body>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/">Predictions.com</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarText">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="/">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/answers">Predictions</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/adminPage">Administrators room</a>
+                    </li>
+
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <button onclick="GetCommands()">Get Commands!</button>
+    <div id="commandsPlace">Commands:</div>
+    <canvas id="MainCanvas" width="320" height="240"></canvas>
+    <script>
+        const canvas = document.getElementById("MainCanvas");
+        const width = 0;
+        const height = 0;
+        const ctx = canvas.getContext("2d");
+        var Player_X = 50;
+        var Player_Y = 50;
+        var canContinue = true;
+
+        async function GetCommands() {
+            var getCommands = await fetch("/Get_executeCommands?CommandsList.txt");
+            var placeHolder = document.getElementById("commandsPlace");
+            var answer = await getCommands.text();
+            placeHolder.innerHTML = answer;
+
+            var arrayOfCommands = answer.split(' ');
+
+            const width = canvas.width = window.innerWidth;
+            const height = canvas.height = window.innerHeight;
+            ctx.fillStyle = 'rgb(0, 0, 0)';
+            ctx.fillRect(0, 0, width, height);
+            Player_X = 100;
+            Player_Y = 50;
+
+
+            arrayOfCommands.forEach(Element => Mover(Element));
+
+
+        }
+        function Mover(string) {
+            if (string == "Right") {
+                Right();
+            }
+            else if (string == "Up") {
+                Up();
+            }
+            else if (string == "Left") {
+                Left();
+            }
+            else if (string == "Down") {
+                Down();
+            }
+        }
+        function Right() {
+            canContinue = false;
+            ctx.fillStyle = 'rgb(255, 0, 0)';
+            ctx.fillRect(Player_X, Player_Y, 50, 50);
+            var new_X = Player_X + 50;
+            var timer = setInterval(() => {
+                ctx.fillStyle = 'rgb(0, 0, 0)';
+                ctx.fillRect(Player_X, Player_Y, 50, 50);
+                Player_X += 5;
+                if (Player_X > new_X) {
+                    canContinue = true;
+                    clearInterval(timer);
+                }
+                ctx.fillStyle = 'rgb(255, 0, 0)';
+                ctx.fillRect(Player_X, Player_Y, 50, 50);
+            }, 10);
+
+
+        }
+        function Left() {
+            canContinue = false;
+            ctx.fillStyle = 'rgb(255, 0, 0)';
+            ctx.fillRect(Player_X, Player_Y, 50, 50);
+            var new_X = Player_X - 50;
+            var timer = setInterval(() => {
+                ctx.fillStyle = 'rgb(0, 0, 0)';
+                ctx.fillRect(Player_X, Player_Y, 50, 50);
+                Player_X -= 5;
+                if (Player_X < new_X) {
+                    canContinue = true;
+                    clearInterval(timer);
+                }
+                ctx.fillStyle = 'rgb(255, 0, 0)';
+                ctx.fillRect(Player_X, Player_Y, 50, 50);
+            }, 10);
+
+
+        }
+        function Up() {
+
+            canContinue = false;
+            ctx.fillStyle = 'rgb(255, 0, 0)';
+            ctx.fillRect(Player_X, Player_Y, 50, 50);
+            var new_Y = Player_Y - 50;
+            var timer = setInterval(() => {
+                ctx.fillStyle = 'rgb(0, 0, 0)';
+                ctx.fillRect(Player_X, Player_Y, 50, 50);
+                Player_Y -= 5;
+                if (Player_Y < new_Y) {
+                    canContinue = true;
+                    clearInterval(timer);
+                }
+                ctx.fillStyle = 'rgb(255, 0, 0)';
+                ctx.fillRect(Player_X, Player_Y, 50, 50);
+            }, 10);
+
+        } function Down() {
+
+            canContinue = false;
+            ctx.fillStyle = 'rgb(255, 0, 0)';
+            ctx.fillRect(Player_X, Player_Y, 50, 50);
+            var new_Y = Player_Y + 50;
+            var timer = setInterval(() => {
+                ctx.fillStyle = 'rgb(0, 0, 0)';
+                ctx.fillRect(Player_X, Player_Y, 50, 50);
+                Player_Y += 5;
+                if (Player_Y > new_Y) {
+                    canContinue = true;
+                    clearInterval(timer);
+                }
+                ctx.fillStyle = 'rgb(255, 0, 0)';
+                ctx.fillRect(Player_X, Player_Y, 50, 50);
+            }, 10);
+
+        }
+        document.onkeydown = function checkKeycode(event) {
+            var keycode;
+            if (!event) var event = window.event;
+            if (event.keyCode) keycode = event.keyCode; // для IE
+            else if (event.which) keycode = event.which; // для всех браузеров
+            //alert("keycode: " + keycode); // Выводим сообщение
+            // Тут можно написать функции при нажатии нужных клавиш
+            if (keycode == 87) {
+                Up();
+            }
+            if (keycode == 83) {
+                Down();
+            }
+            if (keycode == 65) {
+                Left();
+            }
+            if (keycode == 68) {
+                Right();
+            }
+            //if (keycode == 69) {
+            //    Q();
+            //}
+            //if (keycode == 81) {
+            //    E();
+            //}
+            //if (keycode == 82) {
+            //    R();
+            //}
+            //if (keycode == 84) {
+            //    T();
+            //}
+            //if (keycode == 38) {
+            //    up();
+            //}
+            //if (keycode == 40) {
+            //    down();
+            //}
+            //if (keycode == 37) {
+            //    left();
+            //}
+            //if (keycode == 39) {
+            //    right();
+            //}
+            //if (keycode == 32) {
+            //    Space();
+            //}
+        }
+
+    </script>
+
+    <script>
+            //var canvas = document.getElementById("MainCanvas");
+            //var width = canvas.width = window.innerWidth;
+            //var height = canvas.height = window.innerHeight;
+
+            //const ctx = canvas.getContext("2d");
+            //ctx.fillStyle = 'rgb(0, 0, 0)';
+            //ctx.fillRect(0, 0, width, height);
+
+
+            //ctx.fillStyle = 'rgb(255, 123, 0)';
+            //ctx.beginPath();
+            //ctx.moveTo(50, 50);
+            //ctx.moveTo(120, 30);
+            //ctx.moveTo(120, 70);
+            //// draw your path
+            //ctx.fillRect(0, 50, 50, 150);
+
+
+            //var x = 50;
+            //var y = 50;
+            //ctx.fillStyle = 'rgb(255, 0, 0)';
+            //ctx.fillRect(x, 50, 50, 50);
+            //let time = setInterval(() => {
+
+
+            //    ctx.fillStyle = 'rgb(0, 0, 0)';
+            //    ctx.fillRect(x, 50, y, 50);
+            //    x += 5;
+            //    if (x > width) {
+            //        x = 0;
+            //    }
+            //    ctx.fillStyle = 'rgb(255, 0, 0)';
+            //    ctx.fillRect(x, 50, y, 50);
+            //}, 100);
+    </script>
+</body>
+</html>
