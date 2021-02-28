@@ -44,20 +44,52 @@
         <a>Add new Result:  ☀</a>
         <br />
         <!--<input />
-        <button type="button" class="btn btn-warning">Add</button>-->
+    <button type="button" class="btn btn-warning">Add</button>-->
         <div class="input-group mb-3"
              style="width:96%;
                 ">
             <input type="text" class="form-control" placeholder="New answer" aria-label="New answer" aria-describedby="button-addon2" id="newPredictionsInput">
-            <button class="btn btn-outline-secondary btn-warning" type="button" id="button-addon2" onclick="OnClick()">Add</button>
+            <button class="btn btn-outline-secondary btn-warning" type="button" id="button-addon2" onclick="OnAddButtonClick()">Add</button>
             <script>
                 async function OnClick() {
                     fetch("/addPrediction?" + document.getElementById("newPredictionsInput").value);
                 }
             </script>
+
+
+        </div>
+        <div class="input-group mb-3"
+             style="width:96%;
+                ">
+            <input type="text" class="form-control" placeholder="New answer" aria-label="New answer" aria-describedby="button-addon2" id="newWhatInput">
+            <button class="btn btn-outline-secondary btn-warning" type="button" id="button-addon2" onclick="OnGreatButtonClick()">Add</button>
+            <script>
+                function OnGreatButtonClick() {
+                    var newansw = document.getElementById("newPredictionsInput").value;
+                    var newhat = document.getElementById("newWhatInput").value;
+
+                    fetch("/DoSomething?" + "spend=" + newansw +
+                        "&test=" + newhat +
+                        "&what=" + "day1");
+                }
+            </script>
+
+
         </div>
     </div>
+
     
+    <script>
+
+        function OnAddButtonClick() {
+            //OnClick();
+
+            var prediction = document.getElementById("newPredictionsInput").value;
+            fetch("/addPrediction?newPrediction=" + prediction);
+        }
+
+
+    </script>
 
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>

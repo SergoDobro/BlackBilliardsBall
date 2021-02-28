@@ -80,14 +80,32 @@ namespace WebApplication1_2021_02_17_secondASPNET
                     //{
                     //    table += $"<tr><td>||  {header.Key}</td><td>{header.Value}  ||</td></tr>";
                     //}
+
+
+                    //////PredictionsManager pm = new PredictionsManager();
+                    //////var query = context.Request.Query;
+                    //////string text = context.Request.Headers[":path"].ToString().Split('?')[1];
+                    //////pm.AddPrediction(text);
+                    //////await context.Response.WriteAsync("successfully added");
+
                     await context.Response.WriteAsync(table);
                 });
                 endpoints.MapGet("/addPrediction", async context =>
                 {
                     PredictionsManager pm = new PredictionsManager();
                     var query = context.Request.Query;
-                    string text = context.Request.Headers[":path"].ToString().Split('?')[1];
+                    string text = query["newPrediction"];
                     pm.AddPrediction(text);
+                    await context.Response.WriteAsync("successfully added");
+                });
+                endpoints.MapGet("/DoSomething", async context =>
+                {
+                    PredictionsManager pm = new PredictionsManager();
+                    var query = context.Request.Query;
+                    string text = query["spend"];
+                    string text2 = query["test"];
+                    string text3 = query["what"];
+                    pm.AddPrediction($"{text} {text2.Remove(text2.Length-1)}  --- {text3}");
                     await context.Response.WriteAsync("successfully added");
                 });
                 #endregion

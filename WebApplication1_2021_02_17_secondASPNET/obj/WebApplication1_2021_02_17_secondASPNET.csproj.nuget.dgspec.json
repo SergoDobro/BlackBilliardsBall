@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "d:\\Програмирование\\C# computer\\3. C#4\\С#-4\\WebApplication1_2021_02_17_secondASPNET\\WebApplication1_2021_02_17_secondASPNET\\WebApplication1_2021_02_17_secondASPNET.csproj": {}
+    "D:\\Програмирование\\C# computer\\3. C#4\\С#-4\\WebApplication1_2021_02_17_secondASPNET\\WebApplication1_2021_02_17_secondASPNET\\WebApplication1_2021_02_17_secondASPNET.csproj": {}
   },
   "projects": {
-    "d:\\Програмирование\\C# computer\\3. C#4\\С#-4\\WebApplication1_2021_02_17_secondASPNET\\WebApplication1_2021_02_17_secondASPNET\\WebApplication1_2021_02_17_secondASPNET.csproj": {
+    "D:\\Програмирование\\C# computer\\3. C#4\\С#-4\\WebApplication1_2021_02_17_secondASPNET\\WebApplication1_2021_02_17_secondASPNET\\WebApplication1_2021_02_17_secondASPNET.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "d:\\Програмирование\\C# computer\\3. C#4\\С#-4\\WebApplication1_2021_02_17_secondASPNET\\WebApplication1_2021_02_17_secondASPNET\\WebApplication1_2021_02_17_secondASPNET.csproj",
+        "projectUniqueName": "D:\\Програмирование\\C# computer\\3. C#4\\С#-4\\WebApplication1_2021_02_17_secondASPNET\\WebApplication1_2021_02_17_secondASPNET\\WebApplication1_2021_02_17_secondASPNET.csproj",
         "projectName": "WebApplication1_2021_02_17_secondASPNET",
-        "projectPath": "d:\\Програмирование\\C# computer\\3. C#4\\С#-4\\WebApplication1_2021_02_17_secondASPNET\\WebApplication1_2021_02_17_secondASPNET\\WebApplication1_2021_02_17_secondASPNET.csproj",
+        "projectPath": "D:\\Програмирование\\C# computer\\3. C#4\\С#-4\\WebApplication1_2021_02_17_secondASPNET\\WebApplication1_2021_02_17_secondASPNET\\WebApplication1_2021_02_17_secondASPNET.csproj",
         "packagesPath": "C:\\Users\\optim\\.nuget\\packages\\",
-        "outputPath": "d:\\Програмирование\\C# computer\\3. C#4\\С#-4\\WebApplication1_2021_02_17_secondASPNET\\WebApplication1_2021_02_17_secondASPNET\\obj\\",
+        "outputPath": "D:\\Програмирование\\C# computer\\3. C#4\\С#-4\\WebApplication1_2021_02_17_secondASPNET\\WebApplication1_2021_02_17_secondASPNET\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Microsoft\\Xamarin\\NuGet\\",
