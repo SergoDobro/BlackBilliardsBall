@@ -4,10 +4,10 @@
     <meta charset="utf-8" />
     <title></title>
     <style>
-    body {
-        margin: 0;
-        overflow: hidden;
-    }
+        body {
+            margin: 0;
+            overflow: hidden;
+        }
     </style>
 </head>
 <body>
@@ -37,6 +37,8 @@
     </nav>
     <button onclick="GetCommands()">Execute Commands!</button>
     <button onclick="Reset()">Reset!</button>
+    <input id="newCommandsInput" />
+    <button onclick="AddCommands()">Add Commands</button>
     <div id="commandsPlace">Commands:</div>
     <canvas id="MainCanvas" width="320" height="240"></canvas>
     <script>
@@ -47,22 +49,28 @@
         var Player_X = 50;
         var Player_Y = 50;
         var canContinue = true;
-
+        Reset();
         var array_of_functions = [];
+        async function AddCommands() {
+            var text = document.getElementById("newCommandsInput").value;
+            await fetch("/Add_To_CommandsList?way=CommandsList.txt&CommandsToAdd=" + text);
+        }
         async function GetCommands() {
             var getCommands = await fetch("/Get_executeCommands?CommandsList.txt");
             var placeHolder = document.getElementById("commandsPlace");
             var answer = await getCommands.text();
             placeHolder.innerHTML = answer;
-
+            //alert(answer);
             var arrayOfCommands = answer.split(' ');
 
             //const width = canvas.width = window.innerWidth;
             //const height = canvas.height = window.innerHeight;
 
+            //array_of_functions.push(() => { });
             arrayOfCommands.forEach(Element => Mover(Element));
 
-            array_of_functions[0]();
+            CheckAndTryToAct();
+            //Continue();
 
         }
         function Mover(string) {
@@ -81,21 +89,18 @@
         }
         function Right() {
             canContinue = false;
-            ctx.fillStyle = 'rgb(255, 0, 0)';
-            ctx.fillRect(Player_X, Player_Y, 50, 50);
             var new_X = Player_X + 50;
             var howLong = 0;
             var timer = setInterval(() => {
-                ctx.fillStyle = 'rgb(0, 0, 0)';
-                ctx.fillRect(Player_X, Player_Y, 50, 50);
+                Player_ClearDraw();
                 Player_X += 5;
+                ctx.fillStyle = 'rgb(255, 0, 0)';
+                ctx.fillRect(Player_X, Player_Y, 50, 50);
                 if (10 < howLong) {
                     canContinue = true;
                     clearInterval(timer);
                     Continue();
                 }
-                ctx.fillStyle = 'rgb(255, 0, 0)';
-                ctx.fillRect(Player_X, Player_Y, 50, 50);
                 howLong++;
             }, 10);
 
@@ -103,21 +108,18 @@
         }
         function Left() {
             canContinue = false;
-            ctx.fillStyle = 'rgb(255, 0, 0)';
-            ctx.fillRect(Player_X, Player_Y, 50, 50);
             var new_X = Player_X - 50;
             var howLong = 0;
             var timer = setInterval(() => {
-                ctx.fillStyle = 'rgb(0, 0, 0)';
-                ctx.fillRect(Player_X, Player_Y, 50, 50);
+                Player_ClearDraw();
                 Player_X -= 5;
+                ctx.fillStyle = 'rgb(255, 0, 0)';
+                ctx.fillRect(Player_X, Player_Y, 50, 50);
                 if (10 < howLong) {
                     canContinue = true;
                     clearInterval(timer);
                     Continue();
                 }
-                ctx.fillStyle = 'rgb(255, 0, 0)';
-                ctx.fillRect(Player_X, Player_Y, 50, 50);
                 howLong++;
             }, 10);
 
@@ -126,21 +128,18 @@
         function Up() {
 
             canContinue = false;
-            ctx.fillStyle = 'rgb(255, 0, 0)';
-            ctx.fillRect(Player_X, Player_Y, 50, 50);
             var new_Y = Player_Y - 50;
             var howLong = 0;
             var timer = setInterval(() => {
-                ctx.fillStyle = 'rgb(0, 0, 0)';
-                ctx.fillRect(Player_X, Player_Y, 50, 50);
+                Player_ClearDraw();
                 Player_Y -= 5;
+                ctx.fillStyle = 'rgb(255, 0, 0)';
+                ctx.fillRect(Player_X, Player_Y, 50, 50);
                 if (10 < howLong) {
                     canContinue = true;
                     clearInterval(timer);
                     Continue();
                 }
-                ctx.fillStyle = 'rgb(255, 0, 0)';
-                ctx.fillRect(Player_X, Player_Y, 50, 50);
                 howLong++;
             }, 10);
 
@@ -148,35 +147,45 @@
         function Down() {
 
             canContinue = false;
-            ctx.fillStyle = 'rgb(255, 0, 0)';
-            ctx.fillRect(Player_X, Player_Y, 50, 50);
             var new_Y = Player_Y + 50;
             var howLong = 0;
             var timer = setInterval(() => {
-                ctx.fillStyle = 'rgb(0, 0, 0)';
-                ctx.fillRect(Player_X, Player_Y, 50, 50);
+                Player_ClearDraw();
                 Player_Y += 5;
+                ctx.fillStyle = 'rgb(255, 0, 0)';
+                ctx.fillRect(Player_X, Player_Y, 50, 50);
                 if (10 < howLong) {
                     canContinue = true;
                     clearInterval(timer);
                     Continue();
                 }
-                ctx.fillStyle = 'rgb(255, 0, 0)';
-                ctx.fillRect(Player_X, Player_Y, 50, 50);
                 howLong++;
             }, 10);
 
         }
         function Continue() {
 
-            if (array_of_functions.length > 1) {
+            if (array_of_functions.length > 0) {
                 array_of_functions.shift();
                 array_of_functions[0]();
 
             }
+            //else if (array_of_functions.length==0){
+            //    array_of_functions[0]();
+            //    array_of_functions = null;
+            //}
+        }
+        function Player_ClearDraw() {
+            ctx.fillStyle = 'rgb(0, 0, 0)';
+            ctx.fillRect(Player_X, Player_Y, 50, 50);
+        }
+        function CheckAndTryToAct() {
+            if (canContinue) {
+                array_of_functions[0]();
+            }
         }
         async function Reset() {
-            ctx.fillStyle = 'rgb(0, 0, 0)';
+            ctx.fillStyle = 'rgb(125, 125, 125)';
             ctx.fillRect(0, 0, width, height);
             Player_X = 100;
             Player_Y = 50;
@@ -191,16 +200,24 @@
             //alert("keycode: " + keycode); // Выводим сообщение
             // Тут можно написать функции при нажатии нужных клавиш
             if (keycode == 87) {
-                Up();
+                array_of_functions.push(Up);
+                //Up();
+                CheckAndTryToAct();
             }
             if (keycode == 83) {
-                Down();
+                array_of_functions.push(Down);
+                //Down();
+                CheckAndTryToAct();
             }
             if (keycode == 65) {
-                Left();
+                array_of_functions.push(Left);
+                //Left();
+                CheckAndTryToAct();
             }
             if (keycode == 68) {
-                Right();
+                array_of_functions.push(Right);
+                //Right();
+                CheckAndTryToAct();
             }
             //if (keycode == 69) {
             //    Q();
@@ -234,40 +251,40 @@
     </script>
 
     <script>
-                    //var canvas = document.getElementById("MainCanvas");
-                    //var width = canvas.width = window.innerWidth;
-                    //var height = canvas.height = window.innerHeight;
+                            //var canvas = document.getElementById("MainCanvas");
+                            //var width = canvas.width = window.innerWidth;
+                            //var height = canvas.height = window.innerHeight;
 
-                    //const ctx = canvas.getContext("2d");
-                    //ctx.fillStyle = 'rgb(0, 0, 0)';
-                    //ctx.fillRect(0, 0, width, height);
-
-
-                    //ctx.fillStyle = 'rgb(255, 123, 0)';
-                    //ctx.beginPath();
-                    //ctx.moveTo(50, 50);
-                    //ctx.moveTo(120, 30);
-                    //ctx.moveTo(120, 70);
-                    //// draw your path
-                    //ctx.fillRect(0, 50, 50, 150);
+                            //const ctx = canvas.getContext("2d");
+                            //ctx.fillStyle = 'rgb(0, 0, 0)';
+                            //ctx.fillRect(0, 0, width, height);
 
 
-                    //var x = 50;
-                    //var y = 50;
-                    //ctx.fillStyle = 'rgb(255, 0, 0)';
-                    //ctx.fillRect(x, 50, 50, 50);
-                    //let time = setInterval(() => {
+                            //ctx.fillStyle = 'rgb(255, 123, 0)';
+                            //ctx.beginPath();
+                            //ctx.moveTo(50, 50);
+                            //ctx.moveTo(120, 30);
+                            //ctx.moveTo(120, 70);
+                            //// draw your path
+                            //ctx.fillRect(0, 50, 50, 150);
 
 
-                    //    ctx.fillStyle = 'rgb(0, 0, 0)';
-                    //    ctx.fillRect(x, 50, y, 50);
-                    //    x += 5;
-                    //    if (x > width) {
-                    //        x = 0;
-                    //    }
-                    //    ctx.fillStyle = 'rgb(255, 0, 0)';
-                    //    ctx.fillRect(x, 50, y, 50);
-                    //}, 100);
+                            //var x = 50;
+                            //var y = 50;
+                            //ctx.fillStyle = 'rgb(255, 0, 0)';
+                            //ctx.fillRect(x, 50, 50, 50);
+                            //let time = setInterval(() => {
+
+
+                            //    ctx.fillStyle = 'rgb(0, 0, 0)';
+                            //    ctx.fillRect(x, 50, y, 50);
+                            //    x += 5;
+                            //    if (x > width) {
+                            //        x = 0;
+                            //    }
+                            //    ctx.fillStyle = 'rgb(255, 0, 0)';
+                            //    ctx.fillRect(x, 50, y, 50);
+                            //}, 100);
     </script>
 </body>
 </html>

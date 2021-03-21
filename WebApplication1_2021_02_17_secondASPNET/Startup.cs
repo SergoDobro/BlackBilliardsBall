@@ -15,6 +15,7 @@ namespace WebApplication1_2021_02_17_secondASPNET
     {
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddSingleton<PredictionsManager>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -54,6 +55,11 @@ namespace WebApplication1_2021_02_17_secondASPNET
                     string page = File.ReadAllText(@"Site\experimentsPage.html");
                     await context.Response.WriteAsync(page);
                 });
+                endpoints.MapGet("/moldenbrodExperiments", async context =>
+                {
+                    string page = File.ReadAllText(@"Site\moldenbrodExperimentsPage.html");
+                    await context.Response.WriteAsync(page);
+                });
                 #endregion
                 #region Getter
                 endpoints.MapGet("/password", async context =>
@@ -68,7 +74,7 @@ namespace WebApplication1_2021_02_17_secondASPNET
                 });
                 endpoints.MapGet("/getAnswers", async context =>
                 {
-                    PredictionsManager pm = new PredictionsManager();
+                    PredictionsManager pm = app.ApplicationServices.GetService<PredictionsManager>();
                     string answer = pm.GetRandomPrediction();
 
                     await context.Response.WriteAsync(answer);// + context.Request.Body);
@@ -90,17 +96,9 @@ namespace WebApplication1_2021_02_17_secondASPNET
 
                     await context.Response.WriteAsync(table);
                 });
-                endpoints.MapGet("/addPrediction", async context =>
-                {
-                    PredictionsManager pm = new PredictionsManager();
-                    var query = context.Request.Query;
-                    string text = query["newPrediction"];
-                    pm.AddPrediction(text);
-                    await context.Response.WriteAsync("successfully added");
-                });
                 endpoints.MapGet("/DoSomething", async context =>
                 {
-                    PredictionsManager pm = new PredictionsManager();
+                    PredictionsManager pm = app.ApplicationServices.GetService<PredictionsManager>();
                     var query = context.Request.Query;
                     string text = query["spend"];
                     string text2 = query["test"];
@@ -109,7 +107,42 @@ namespace WebApplication1_2021_02_17_secondASPNET
                     await context.Response.WriteAsync("successfully added");
                 });
                 #endregion
+                #region Post
+                endpoints.MapPost("/addPrediction", async context =>
+                {
+                //    if (!context.Request.HasJsonContentType())
+                //    {
+                //        context.Response.StatusCode = StatusCodes.Status415UnsupportedMediaType;
+                //        return;
+                //    }
 
+                //    //var resp = await context.Request.ReadFromJsonAsync<Dictionary<string, string>>();
+                //    //string text = resp["text"];
+
+                //    PredictionsManager pm = app.ApplicationServices.GetService<PredictionsManager>();
+                //    //var query = context.Request.Query;
+                //    //string text = query["newPrediction"];
+                //    pm.AddPrediction(text);
+                //    await context.Response.WriteAsync("successfully added");
+                PredictionsManager pm = app.ApplicationServices.GetService<PredictionsManager>();
+                    Prediction resp = await context.Request.ReadFromJsonAsync<Prediction>();
+                    pm.AddPrediction(resp.PredictionString);
+                    await context.Response.WriteAsync(resp.PredictionString);
+                });
+                endpoints.MapGet("/GetAllPredictions", async context =>
+                {
+                    PredictionsManager pm = app.ApplicationServices.GetService<PredictionsManager>();
+                    var answers = new { answers = pm.GetAnswers() };
+                    await context.Response.WriteAsJsonAsync(answers);
+                });
+                endpoints.MapPost("/removePrediction", async context =>
+                {
+                    PredictionsManager pm = app.ApplicationServices.GetService<PredictionsManager>();
+                    Prediction resp = await context.Request.ReadFromJsonAsync<Prediction>();
+                    pm.RemovePrediction(resp.PredictionString);
+                    await context.Response.WriteAsync(resp.PredictionString);
+                });
+                #endregion
                 #region commands executer
 
                 endpoints.MapGet("/execute", async context =>
@@ -126,6 +159,37 @@ namespace WebApplication1_2021_02_17_secondASPNET
                         result = reader.ReadToEnd();
                     }
                     await context.Response.WriteAsync(result);
+                });
+                endpoints.MapGet("/Add_To_CommandsList", async context =>
+                {
+                    PredictionsManager pm = app.ApplicationServices.GetService<PredictionsManager>();
+                    var query = context.Request.Query;
+                    string text = query["CommandsToAdd"];
+                    Console.WriteLine(text);
+                    using (StreamWriter writer = new StreamWriter(query["way"]))
+                    {
+                        foreach (var c in text)
+                        {
+                            switch (c)
+                            {
+                                case 'u':
+                                    writer.Write("Up ");
+                                    break;
+                                case 'd':
+                                    writer.Write("Down ");
+                                    break;
+                                case 'l':
+                                    writer.Write("Left ");
+                                    break;
+                                case 'r':
+                                    writer.Write("Right ");
+                                    break;
+                                default:
+                                    break;
+                            }
+                        }
+                    }
+                    await context.Response.WriteAsync("successfully added");
                 });
                 #endregion
             });

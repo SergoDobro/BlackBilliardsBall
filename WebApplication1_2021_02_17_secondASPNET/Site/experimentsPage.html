@@ -92,11 +92,11 @@
             <div id="flush-collapseOne" class="accordion-collapse collapse" aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample">
                 <div class="accordion-body">
                     <button class="btn btn-outline-secondary btn-warning" type="button" id="button-addon2" onclick="OnClick()">
-
                     </button>
                 </div>
             </div>
         </div>
+   
         <div class="accordion-item">
             <h2 class="accordion-header" id="flush-headingTwo">
                 <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseTwo" aria-expanded="false" aria-controls="flush-collapseTwo">
@@ -107,27 +107,157 @@
                 <div class="accordion-body">Placeholder content for this accordion, which is intended to demonstrate the <code>.accordion-flush</code> class. This is the second item's accordion body. Let's imagine this being filled with some actual content.</div>
             </div>
         </div>
+
+        <div class="accordion-item">
+            <h2 class="accordion-header" id="flush-headingTwo">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseTwo" aria-expanded="false" aria-controls="flush-collapseTwo">
+                    Accordion Item #4
+                </button>
+            </h2>
+            <div id="flush-collapseTwo" class="accordion-collapse collapse" aria-labelledby="flush-headingTwo" data-bs-parent="#accordionFlushExample">
+
+                <button onclick="OnClick()" style="width:720px; height:120px"></button>
+                <div id="answerTest">
+
+                </div>
+                <script>
+                    function OnClick() {
+                        GetPrediction();
+                    }
+                    async function GetPrediction() {
+                        let answerPlace = document.getElementById("answerTest");
+                        //var answer = await fetch("/get_random_prediction?testlolTet");
+                        //var response = await answer.text();
+                        var correctResponse = await fetch("/getAnswers");
+                        var response = await correctResponse.text();
+                        answerPlace.innerHTML = ("<div>" + response + "</div>") + answerPlace.innerHTML;
+                    };
+                </script>
+            </div>
+        </div>
+
+        <div class="accordion-item">
+            <h2 class="accordion-header" id="flush-headingfour">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapsefour" aria-expanded="false" aria-controls="flush-collapsefour">
+                    variants
+                </button>
+            </h2>
+            <div id="flush-collapsefour" class="accordion-collapse collapse" aria-labelledby="flush-headingfour" data-bs-parent="#accordionFlushExample">
+
+                <button onclick="OnClickGetVariants()" style="width:720px; height:60px"></button>
+                <div id="answerTest2">
+
+                </div>
+                <script>
+                    function OnClickGetVariants() {
+                        GetPredictions();
+                    }
+                    async function GetPredictions() {
+                        let answerPlace = document.getElementById("answerTest2");
+                        //var answer = await fetch("/get_random_prediction?testlolTet");
+                        //var response = await answer.text();
+                        
+                        var correctResponse = await fetch("/GetAllPredictions");
+                        var response = await correctResponse.json();
+                        answerPlace.innerHTML = "";
+                        for (var i = 0; i < response.answers.length; i++) {
+                            var name = '"' + "a" + i + '"';
+                            answerPlace.innerHTML = ("<div id=" + name +">" +
+                                "<button onclick='OnClickDel(" + '"' + response.answers[i] + '"' + ")' class='btn btn-outline-secondary btn-warning' type='button' id='btn" + i + "' style='width: 120px; height: 60px'>" +
+                                " Delete </button>" +
+                                "<button onclick='OnClickRed(" + '"' + response.answers[i] + '"' + ", " + name +")' class='btn btn-outline-secondary btn-warning' type='button' id='btn" + i + "' style='width: 120px; height: 60px'>" +
+                                " Redact </button>"
+                                + response.answers[i] + "</div>") + answerPlace.innerHTML;
+                        }
+                    };
+                    async function OnClickDel(delet) {
+                        await fetch("/removePrediction", {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify({ PredictionString: delet })
+                        }).then((x) => GetPredictions());
+                    }
+                    async function OnClickRed(delet, myDiv) {
+                        var curDiv = document.getElementById(myDiv);
+                        //alert(curDiv.innerHTML);
+                        var name = "red" + myDiv;
+                        var help = '"';
+                        curDiv.innerHTML += "<input type='text' class='form-control' placeholder='New answer' aria-label='New answer' aria-describedby='button-addon2' id='" + name +"' value='" + delet + "'>";
+                        curDiv.innerHTML += "<button onclick='OnClickRedCom(" + help + delet + help + ", " + help + name + help+ ")' class='btn btn-outline-secondary btn-warning' type='button' id='button-addon2' style='width:720px; height:60px'> Commit Changes </button>";
+                        //await fetch("/removePrediction", {
+                        //    method: 'POST',
+                        //    headers: {
+                        //        'Content-Type': 'application/json'
+                        //    },
+                        //    body: JSON.stringify({ PredictionString: delet })
+                        //}).then((x) => GetPredictions());
+                    }
+                    async function OnClickRedCom(deletold, myDiv) {
+                        var curDiv = document.getElementById(myDiv);
+                        await fetch("/removePrediction", {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify({ PredictionString: deletold })
+                        });
+                        await fetch("/addPrediction", {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify({ PredictionString: curDiv.value })
+                        }).then((x) => GetPredictions());
+
+
+                    }
+                </script>
+            </div>
+        </div>
     </div>
 
 
-    
 
-    <button onclick="OnClick()" style="width:720px; height:120px"></button>
-    <div id="answerTest">
 
-    </div>
-    <script>
-        function OnClick() {
-            GetPrediction();
-        }
-        async function GetPrediction() {
-            let answerPlace = document.getElementById("answerTest");
-            //var answer = await fetch("/get_random_prediction?testlolTet");
-            //var response = await answer.text();
-            var correctResponse = await fetch("/getAnswers");
-            var response = await correctResponse.text();
-            answerPlace.innerHTML = ("<div>" + response + "</div>") + answerPlace.innerHTML ;
-        };
-    </script>
+
+    <div class="input-group mb-3"
+         style="width:96%;
+                ">
+        <input type="text" class="form-control" placeholder="New answer" aria-label="New answer" aria-describedby="button-addon2" id="newPredictionsInput">
+        <button onclick="OnClick4()" class="btn btn-outline-secondary btn-warning" type="button" id="button-addon2" style="width:720px; height:60px"> post </button>
+        <script>
+            async function OnClick4() {
+                postDataPredictionString("/addPrediction", document.getElementById("newPredictionsInput").value );
+            }
+            async function postDataPredictionString(url = '', pred) {
+                //// Default options are marked with *
+                //const response = await fetch(url, {
+                //    method: 'POST', // *GET, POST, PUT, DELETE, etc.
+                //    mode: 'cors', // no-cors, *cors, same-origin
+                //    cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+                //    credentials: 'same-origin', // include, *same-origin, omit
+                //    headers: {
+                //        'Content-Type': 'application/json'
+                //        // 'Content-Type': 'application/x-www-form-urlencoded',
+                //    },
+                //    redirect: 'follow', // manual, *follow, error
+                //    referrerPolicy: 'no-referrer', // no-referrer, *client
+                //    body: JSON.stringify(data) // body data type must match "Content-Type" header
+                //});
+                const response = await fetch(url, {
+                    method: 'POST', // *GET, POST, PUT, DELETE, etc.
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ PredictionString: pred}) // body data type must match "Content-Type" header
+                });
+                //return await response.json(); // parses JSON response into native JavaScript objects
+            }
+        </script>
+
+        </div>
+
 </body>
 </html>

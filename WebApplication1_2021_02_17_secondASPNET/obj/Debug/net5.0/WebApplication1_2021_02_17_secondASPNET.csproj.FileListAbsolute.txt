@@ -7,7 +7,6 @@ D:\Програмирование\C# computer\3. C#4\С#-4\WebApplication1_2021_
 D:\Програмирование\C# computer\3. C#4\С#-4\WebApplication1_2021_02_17_secondASPNET\WebApplication1_2021_02_17_secondASPNET\bin\Debug\net5.0\WebApplication1_2021_02_17_secondASPNET.dll
 D:\Програмирование\C# computer\3. C#4\С#-4\WebApplication1_2021_02_17_secondASPNET\WebApplication1_2021_02_17_secondASPNET\bin\Debug\net5.0\ref\WebApplication1_2021_02_17_secondASPNET.dll
 D:\Програмирование\C# computer\3. C#4\С#-4\WebApplication1_2021_02_17_secondASPNET\WebApplication1_2021_02_17_secondASPNET\bin\Debug\net5.0\WebApplication1_2021_02_17_secondASPNET.pdb
-D:\Програмирование\C# computer\3. C#4\С#-4\WebApplication1_2021_02_17_secondASPNET\WebApplication1_2021_02_17_secondASPNET\obj\Debug\net5.0\WebApplication1_2021_02_17_secondASPNET.csprojAssemblyReference.cache
 D:\Програмирование\C# computer\3. C#4\С#-4\WebApplication1_2021_02_17_secondASPNET\WebApplication1_2021_02_17_secondASPNET\obj\Debug\net5.0\WebApplication1_2021_02_17_secondASPNET.GeneratedMSBuildEditorConfig.editorconfig
 D:\Програмирование\C# computer\3. C#4\С#-4\WebApplication1_2021_02_17_secondASPNET\WebApplication1_2021_02_17_secondASPNET\obj\Debug\net5.0\WebApplication1_2021_02_17_secondASPNET.AssemblyInfoInputs.cache
 D:\Програмирование\C# computer\3. C#4\С#-4\WebApplication1_2021_02_17_secondASPNET\WebApplication1_2021_02_17_secondASPNET\obj\Debug\net5.0\WebApplication1_2021_02_17_secondASPNET.AssemblyInfo.cs
@@ -21,3 +20,4 @@ D:\Програмирование\C# computer\3. C#4\С#-4\WebApplication1_2021_
 D:\Програмирование\C# computer\3. C#4\С#-4\WebApplication1_2021_02_17_secondASPNET\WebApplication1_2021_02_17_secondASPNET\obj\Debug\net5.0\ref\WebApplication1_2021_02_17_secondASPNET.dll
 D:\Програмирование\C# computer\3. C#4\С#-4\WebApplication1_2021_02_17_secondASPNET\WebApplication1_2021_02_17_secondASPNET\obj\Debug\net5.0\WebApplication1_2021_02_17_secondASPNET.pdb
 D:\Програмирование\C# computer\3. C#4\С#-4\WebApplication1_2021_02_17_secondASPNET\WebApplication1_2021_02_17_secondASPNET\obj\Debug\net5.0\WebApplication1_2021_02_17_secondASPNET.genruntimeconfig.cache
+D:\Програмирование\C# computer\3. C#4\С#-4\WebApplication1_2021_02_17_secondASPNET\WebApplication1_2021_02_17_secondASPNET\obj\Debug\net5.0\WebApplication1_2021_02_17_secondASPNET.csprojAssemblyReference.cache
