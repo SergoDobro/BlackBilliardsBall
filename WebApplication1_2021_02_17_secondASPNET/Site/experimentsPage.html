@@ -162,13 +162,15 @@
                         answerPlace.innerHTML = "";
                         for (var i = 0; i < response.answers.length; i++) {
                             var name = '"' + "a" + i + '"';
-                            answerPlace.innerHTML = ("<div id=" + name +">" +
+                            var inputter = "<input type='text' class='form-control' placeholder='New answer' aria-label='New answer' aria-describedby='button-addon2' id='in" + name + "' value='" + response.answers[i] + "'>";
+                            answerPlace.innerHTML = ("<div id=" + name + " class=\"input-group mb-3\">" +
                                 "<button onclick='OnClickDel(" + '"' + response.answers[i] + '"' + ")' class='btn btn-outline-secondary btn-warning' type='button' id='btn" + i + "' style='width: 120px; height: 60px'>" +
                                 " Delete </button>" +
                                 "<button onclick='OnClickRed(" + '"' + response.answers[i] + '"' + ", " + name +")' class='btn btn-outline-secondary btn-warning' type='button' id='btn" + i + "' style='width: 120px; height: 60px'>" +
                                 " Redact </button>"
-                                + response.answers[i] + "</div>") + answerPlace.innerHTML;
+                                + inputter + "</div>") + answerPlace.innerHTML;
                         }
+                        
                     };
                     async function OnClickDel(delet) {
                         await fetch("/removePrediction", {
@@ -184,8 +186,7 @@
                         //alert(curDiv.innerHTML);
                         var name = "red" + myDiv;
                         var help = '"';
-                        curDiv.innerHTML += "<input type='text' class='form-control' placeholder='New answer' aria-label='New answer' aria-describedby='button-addon2' id='" + name +"' value='" + delet + "'>";
-                        curDiv.innerHTML += "<button onclick='OnClickRedCom(" + help + delet + help + ", " + help + name + help+ ")' class='btn btn-outline-secondary btn-warning' type='button' id='button-addon2' style='width:720px; height:60px'> Commit Changes </button>";
+                        curDiv.innerHTML +=  "<button onclick='OnClickRedCom(\"" + delet + "\", \"in" + name + "\")' class='btn btn-outline-secondary btn-warning' type='button' id='button-addon2' style='width:720px; height:60px'> Commit Changes </button>";
                         //await fetch("/removePrediction", {
                         //    method: 'POST',
                         //    headers: {
@@ -196,21 +197,17 @@
                     }
                     async function OnClickRedCom(deletold, myDiv) {
                         var curDiv = document.getElementById(myDiv);
-                        await fetch("/removePrediction", {
-                            method: 'POST',
+                        await fetch("/changePrediction", {
+                            method: 'PUT',
                             headers: {
                                 'Content-Type': 'application/json'
                             },
-                            body: JSON.stringify({ PredictionString: deletold })
+                            body: JSON.stringify({
+                                OldPredictionString: deletold,
+                                NewPredictionString: curDiv.value
+                            })
                         });
-                        await fetch("/addPrediction", {
-                            method: 'POST',
-                            headers: {
-                                'Content-Type': 'application/json'
-                            },
-                            body: JSON.stringify({ PredictionString: curDiv.value })
-                        }).then((x) => GetPredictions());
-
+                        GetPredictions()
 
                     }
                 </script>

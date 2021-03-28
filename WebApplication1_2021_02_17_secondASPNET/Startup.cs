@@ -142,6 +142,12 @@ namespace WebApplication1_2021_02_17_secondASPNET
                     pm.RemovePrediction(resp.PredictionString);
                     await context.Response.WriteAsync(resp.PredictionString);
                 });
+                endpoints.MapPut("/changePrediction", async context =>
+                {
+                    PredictionsManager pm = app.ApplicationServices.GetService<PredictionsManager>();
+                    PredictionChanged resp = await context.Request.ReadFromJsonAsync<PredictionChanged>();
+                    pm.ChangePrediction(resp.OldPredictionString, resp.NewPredictionString);
+                });
                 #endregion
                 #region commands executer
 

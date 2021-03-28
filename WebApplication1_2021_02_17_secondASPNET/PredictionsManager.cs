@@ -19,6 +19,19 @@ namespace WebApplication1_2021_02_17_secondASPNET
                 answers.Remove(oldPrediction);
             }
         }
+        public void ChangePrediction(string oldPrediction, string newPrediction)
+        {
+            if (answers.Contains(oldPrediction))
+            {
+                for (int i = 0; i < answers.Count; i++)
+                {
+                    if (answers[i] == oldPrediction)
+                    {
+                        answers[i] = newPrediction;
+                    }
+                }
+            }
+        }
         public List<string> GetAnswers() => answers;
 
     }

@@ -9,4 +9,9 @@ namespace WebApplication1_2021_02_17_secondASPNET
     {
         public string PredictionString { get; set; }
     }
+    public class PredictionChanged
+    {
+        public string OldPredictionString { get; set; }
+        public string NewPredictionString { get; set; }
+    }
 }
