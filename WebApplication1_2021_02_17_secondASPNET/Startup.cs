@@ -32,32 +32,32 @@ namespace WebApplication1_2021_02_17_secondASPNET
                 #region pages
                 endpoints.MapGet("/", async context =>
                 {
-                    string page = File.ReadAllText(@"Site\basePage.html");
+                    string page = File.ReadAllText(@"Site/basePage.html");
                     await context.Response.WriteAsync(page);
                 });
                 endpoints.MapGet("/adminPage", async context =>
                 {
-                    string page = File.ReadAllText(@"Site\adminPage.html");
+                    string page = File.ReadAllText(@"Site/adminPage.html");
                     await context.Response.WriteAsync(page);
                 });
                 endpoints.MapGet("/answers", async context =>
                 {
-                    string page = File.ReadAllText(@"Site\answersPage.html");
+                    string page = File.ReadAllText(@"Site/answersPage.html");
                     await context.Response.WriteAsync(page);
                 });
                 endpoints.MapGet("/predictions", async context =>
                 {
-                    string page = File.ReadAllText(@"Site\predictionsPage.html");
+                    string page = File.ReadAllText(@"Site/predictionsPage.html");
                     await context.Response.WriteAsync(page);
                 });
                 endpoints.MapGet("/experiments", async context =>
                 {
-                    string page = File.ReadAllText(@"Site\experimentsPage.html");
+                    string page = File.ReadAllText(@"Site/experimentsPage.html");
                     await context.Response.WriteAsync(page);
                 });
                 endpoints.MapGet("/moldenbrodExperiments", async context =>
                 {
-                    string page = File.ReadAllText(@"Site\moldenbrodExperimentsPage.html");
+                    string page = File.ReadAllText(@"Site/moldenbrodExperimentsPage.html");
                     await context.Response.WriteAsync(page);
                 });
                 #endregion
@@ -153,7 +153,7 @@ namespace WebApplication1_2021_02_17_secondASPNET
 
                 endpoints.MapGet("/execute", async context =>
                 {
-                    string page = File.ReadAllText(@"Site\commandsExecuter.html");
+                    string page = File.ReadAllText(@"Site/commandsExecuter.html");
                     await context.Response.WriteAsync(page);
                 });
                 endpoints.MapGet("/Get_executeCommands", async context =>

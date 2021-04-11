@@ -21,3 +21,10 @@ D:\Програмирование\C# computer\3. C#4\С#-4\WebApplication1_2021_
 D:\Програмирование\C# computer\3. C#4\С#-4\WebApplication1_2021_02_17_secondASPNET\WebApplication1_2021_02_17_secondASPNET\obj\Debug\net5.0\WebApplication1_2021_02_17_secondASPNET.pdb
 D:\Програмирование\C# computer\3. C#4\С#-4\WebApplication1_2021_02_17_secondASPNET\WebApplication1_2021_02_17_secondASPNET\obj\Debug\net5.0\WebApplication1_2021_02_17_secondASPNET.genruntimeconfig.cache
 D:\Програмирование\C# computer\3. C#4\С#-4\WebApplication1_2021_02_17_secondASPNET\WebApplication1_2021_02_17_secondASPNET\obj\Debug\net5.0\WebApplication1_2021_02_17_secondASPNET.csprojAssemblyReference.cache
+D:\Програмирование\C# computer\3. C#4\С#-4\WebApplication1_2021_02_17_secondASPNET\WebApplication1_2021_02_17_secondASPNET\bin\Debug\net5.0\Site\adminPage.html
+D:\Програмирование\C# computer\3. C#4\С#-4\WebApplication1_2021_02_17_secondASPNET\WebApplication1_2021_02_17_secondASPNET\bin\Debug\net5.0\Site\answersPage.html
+D:\Програмирование\C# computer\3. C#4\С#-4\WebApplication1_2021_02_17_secondASPNET\WebApplication1_2021_02_17_secondASPNET\bin\Debug\net5.0\Site\basePage.html
+D:\Програмирование\C# computer\3. C#4\С#-4\WebApplication1_2021_02_17_secondASPNET\WebApplication1_2021_02_17_secondASPNET\bin\Debug\net5.0\Site\commandsExecuter.html
+D:\Програмирование\C# computer\3. C#4\С#-4\WebApplication1_2021_02_17_secondASPNET\WebApplication1_2021_02_17_secondASPNET\bin\Debug\net5.0\Site\experimentsPage.html
+D:\Програмирование\C# computer\3. C#4\С#-4\WebApplication1_2021_02_17_secondASPNET\WebApplication1_2021_02_17_secondASPNET\bin\Debug\net5.0\Site\moldenbrodExperimentsPage.html
+D:\Програмирование\C# computer\3. C#4\С#-4\WebApplication1_2021_02_17_secondASPNET\WebApplication1_2021_02_17_secondASPNET\bin\Debug\net5.0\Site\predictionsPage.html
