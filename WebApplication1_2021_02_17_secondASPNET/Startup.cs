@@ -3,11 +3,12 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
+using System.Collections.Generic;
+using System.Security.Claims;
+using Microsoft.AspNetCore.Authentication;
 
 namespace WebApplication1_2021_02_17_secondASPNET
 {
@@ -16,6 +17,8 @@ namespace WebApplication1_2021_02_17_secondASPNET
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddSingleton<PredictionsManager>();
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(options => options.LoginPath = new PathString("/auth"));
+            services.AddAuthorization();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -27,25 +30,54 @@ namespace WebApplication1_2021_02_17_secondASPNET
 
             app.UseRouting();
 
+            app.UseAuthentication();
+            app.UseAuthorization();
+
             app.UseEndpoints(endpoints =>
             {
                 #region pages
-                endpoints.MapGet("/", async context =>
+                endpoints.MapGet("/auth", async context =>
                 {
-                    string page = File.ReadAllText(@"Site/basePage.html");
+                    string page = File.ReadAllText(@"Site/loginPage.html");
                     await context.Response.WriteAsync(page);
                 });
+                //endpoints.MapGet("/password", async context =>
+                //{
+                //    string password = "admin";
+                //    await context.Response.WriteAsync(password);
+                //});
+                endpoints.MapPost("/login", async context =>
+                {
+                    Credentials requestedCredentials = await context.Request.ReadFromJsonAsync<Credentials>();
+                    Credentials FoundUserCredentials = new Credentials() { Login = "adm", Password = "123" };
+                    if (requestedCredentials.Login == FoundUserCredentials.Login && requestedCredentials.Password == FoundUserCredentials.Password)
+                    {
+                        List<Claim> claims = new List<Claim>()
+                        {
+                            new Claim(ClaimsIdentity.DefaultNameClaimType, requestedCredentials.Login)
+                        };// создаем объект ClaimsIdentity
+                        ClaimsIdentity id = new ClaimsIdentity(claims, "ApplicationCookie", ClaimsIdentity.DefaultNameClaimType, ClaimsIdentity.DefaultRoleClaimType);
+                        await context.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(id));
+
+                        context.Response.Redirect("/adminPage");
+
+                    }
+                    string answ = (requestedCredentials.Login == FoundUserCredentials.Login && requestedCredentials.Password == FoundUserCredentials.Password) ? "ok" : "no";
+
+                    await context.Response.WriteAsync(answ);
+                });
+
                 endpoints.MapGet("/adminPage", async context =>
                 {
                     string page = File.ReadAllText(@"Site/adminPage.html");
                     await context.Response.WriteAsync(page);
-                });
+                }).RequireAuthorization();
                 endpoints.MapGet("/answers", async context =>
                 {
                     string page = File.ReadAllText(@"Site/answersPage.html");
                     await context.Response.WriteAsync(page);
                 });
-                endpoints.MapGet("/predictions", async context =>
+                endpoints.MapGet("/", async context =>
                 {
                     string page = File.ReadAllText(@"Site/predictionsPage.html");
                     await context.Response.WriteAsync(page);
@@ -62,16 +94,6 @@ namespace WebApplication1_2021_02_17_secondASPNET
                 });
                 #endregion
                 #region Getter
-                endpoints.MapGet("/password", async context =>
-                {
-                    string password = "admin";
-                    await context.Response.WriteAsync(password);
-                });
-                endpoints.MapGet("/login", async context =>
-                {
-                    string login = "loginn";
-                    await context.Response.WriteAsync(login);
-                });
                 endpoints.MapGet("/getAnswers", async context =>
                 {
                     PredictionsManager pm = app.ApplicationServices.GetService<PredictionsManager>();
@@ -103,28 +125,28 @@ namespace WebApplication1_2021_02_17_secondASPNET
                     string text = query["spend"];
                     string text2 = query["test"];
                     string text3 = query["what"];
-                    pm.AddPrediction($"{text} {text2.Remove(text2.Length-1)}  --- {text3}");
+                    pm.AddPrediction($"{text} {text2.Remove(text2.Length - 1)}  --- {text3}");
                     await context.Response.WriteAsync("successfully added");
                 });
                 #endregion
                 #region Post
                 endpoints.MapPost("/addPrediction", async context =>
                 {
-                //    if (!context.Request.HasJsonContentType())
-                //    {
-                //        context.Response.StatusCode = StatusCodes.Status415UnsupportedMediaType;
-                //        return;
-                //    }
+                    //    if (!context.Request.HasJsonContentType())
+                    //    {
+                    //        context.Response.StatusCode = StatusCodes.Status415UnsupportedMediaType;
+                    //        return;
+                    //    }
 
-                //    //var resp = await context.Request.ReadFromJsonAsync<Dictionary<string, string>>();
-                //    //string text = resp["text"];
+                    //    //var resp = await context.Request.ReadFromJsonAsync<Dictionary<string, string>>();
+                    //    //string text = resp["text"];
 
-                //    PredictionsManager pm = app.ApplicationServices.GetService<PredictionsManager>();
-                //    //var query = context.Request.Query;
-                //    //string text = query["newPrediction"];
-                //    pm.AddPrediction(text);
-                //    await context.Response.WriteAsync("successfully added");
-                PredictionsManager pm = app.ApplicationServices.GetService<PredictionsManager>();
+                    //    PredictionsManager pm = app.ApplicationServices.GetService<PredictionsManager>();
+                    //    //var query = context.Request.Query;
+                    //    //string text = query["newPrediction"];
+                    //    pm.AddPrediction(text);
+                    //    await context.Response.WriteAsync("successfully added");
+                    PredictionsManager pm = app.ApplicationServices.GetService<PredictionsManager>();
                     Prediction resp = await context.Request.ReadFromJsonAsync<Prediction>();
                     pm.AddPrediction(resp.PredictionString);
                     await context.Response.WriteAsync(resp.PredictionString);

@@ -3,5 +3,8 @@
     public interface IPredictionsRepository
     {
         void SavePrediction(PredictionDto prediction);
+        string GetPredictionById(int predictionId);
+        void UpdatePrediction(PredictionDto oldPrediction, PredictionDto newPrediction); 
+        void DeletePrediction(PredictionDto prediction);
     }
 }

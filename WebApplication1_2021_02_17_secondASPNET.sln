@@ -5,7 +5,9 @@ VisualStudioVersion = 16.0.30907.101
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebApplication1_2021_02_17_secondASPNET", "WebApplication1_2021_02_17_secondASPNET\WebApplication1_2021_02_17_secondASPNET.csproj", "{2B81F45B-631D-4FA9-8A8A-5DED4B51230C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleWebApp.Repository", "SimpleWebApp.Repository\SimpleWebApp.Repository.csproj", "{462A28EF-463A-4580-BAAB-91A0EAF79F95}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SimpleWebApp.Repository", "SimpleWebApp.Repository\SimpleWebApp.Repository.csproj", "{462A28EF-463A-4580-BAAB-91A0EAF79F95}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleWebApp.Tests", "SimpleWebApp.Tests\SimpleWebApp.Tests.csproj", "{B9F11177-8A1C-4FA3-AF64-B3B5FE85F85E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{462A28EF-463A-4580-BAAB-91A0EAF79F95}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{462A28EF-463A-4580-BAAB-91A0EAF79F95}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{462A28EF-463A-4580-BAAB-91A0EAF79F95}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B9F11177-8A1C-4FA3-AF64-B3B5FE85F85E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B9F11177-8A1C-4FA3-AF64-B3B5FE85F85E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B9F11177-8A1C-4FA3-AF64-B3B5FE85F85E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B9F11177-8A1C-4FA3-AF64-B3B5FE85F85E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
