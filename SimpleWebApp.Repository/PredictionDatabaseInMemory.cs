@@ -4,9 +4,11 @@ using System.Text;
 using WebApplication1_2021_02_17_secondASPNET.Repository;
 namespace WebApplication1_2021_02_17_secondASPNET.Repository
 {
-    class PredictionDatabaseInMemory : IPredictionsRepository
+    public class PredictionDatabaseInMemory : IPredictionsRepository
     {
-        List<PredictionDto> predictions = new List<PredictionDto>();
+        List<PredictionDto> predictions = new List<PredictionDto>()
+        {
+            new PredictionDto(){ PredictionText="Тебе сегодня повезет!" }};
         public void DeletePrediction(PredictionDto prediction)
         {
             for (int i = 0; i < predictions.Count; i++)
@@ -18,6 +20,9 @@ namespace WebApplication1_2021_02_17_secondASPNET.Repository
                 }
             }
         }
+
+        public List<PredictionDto> GetAllPredictions() => predictions;
+
         public string GetPredictionById(int predictionId)
         {
             for (int i = 0; i < predictions.Count; i++)
@@ -29,9 +34,9 @@ namespace WebApplication1_2021_02_17_secondASPNET.Repository
             }
             return predictions[0].PredictionText;
         }
-        public void SavePrediction(PredictionDto prediction)
+        public void SavePrediction(string prediction)
         {
-            predictions.Add(prediction);
+            predictions.Add(new PredictionDto() { PredictionText = prediction });
         }
         public void UpdatePrediction(PredictionDto oldPrediction, PredictionDto newPrediction)
         {

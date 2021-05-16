@@ -9,6 +9,7 @@ using System.IO;
 using System.Collections.Generic;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authentication;
+using WebApplication1_2021_02_17_secondASPNET.Repository;
 
 namespace WebApplication1_2021_02_17_secondASPNET
 {
@@ -16,7 +17,7 @@ namespace WebApplication1_2021_02_17_secondASPNET
     {
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddSingleton<PredictionsManager>();
+            services.AddSingleton(new PredictionsManager(new PredictionDatabaseInMemory()));
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(options => options.LoginPath = new PathString("/auth"));
             services.AddAuthorization();
         }
@@ -55,7 +56,7 @@ namespace WebApplication1_2021_02_17_secondASPNET
                         List<Claim> claims = new List<Claim>()
                         {
                             new Claim(ClaimsIdentity.DefaultNameClaimType, requestedCredentials.Login)
-                        };// создаем объект ClaimsIdentity
+                        };// пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ ClaimsIdentity
                         ClaimsIdentity id = new ClaimsIdentity(claims, "ApplicationCookie", ClaimsIdentity.DefaultNameClaimType, ClaimsIdentity.DefaultRoleClaimType);
                         await context.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(id));
 

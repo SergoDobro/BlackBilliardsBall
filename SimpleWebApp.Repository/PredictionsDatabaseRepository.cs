@@ -27,7 +27,7 @@ namespace WebApplication1_2021_02_17_secondASPNET.Repository
             return prediction.PredictionText;
         }
 
-        public void SavePrediction(PredictionDto prediction)
+        public void SavePrediction(string prediction)
         {
             using IDbConnection db = new MySqlConnection("Server=127.0.0.1;Database=simplewebapp;Uid=root;Pwd=my-secret-pw;");
             string sqlQuery = "INSERT INTO predictions (predictionText) Values(@PredictionText)";
@@ -46,6 +46,10 @@ namespace WebApplication1_2021_02_17_secondASPNET.Repository
             db.Execute("DELETE from predictions where predictionText = @PredictionText", new { PredictionText = prediction.PredictionText });
         }
 
-
+        public List<PredictionDto> GetAllPredictions()
+        {
+            using IDbConnection db = new MySqlConnection("Server=127.0.0.1;Database=simplewebapp;Uid=root;Pwd=my-secret-pw;");
+            return db.Query<PredictionDto>("Select * From predictions").ToList();
+        }
     }
 }

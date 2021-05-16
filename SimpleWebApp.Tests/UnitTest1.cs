@@ -12,7 +12,7 @@ namespace SimpleWebApp.Tests
             PredictionDto predDto = new PredictionDto() { PredictionText = "yesno 2" };
 
             IPredictionsRepository predictionsRepository = new PredictionsDatabaseRepository();
-            predictionsRepository.SavePrediction(predDto);
+            predictionsRepository.SavePrediction(predDto.PredictionText);
         }
         [Fact]
         public void Test2()
