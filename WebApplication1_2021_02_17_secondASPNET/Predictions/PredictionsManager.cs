@@ -15,9 +15,9 @@ namespace WebApplication1_2021_02_17_secondASPNET
         {
             _predictionsRepository = predictionsRepository;
         }
-        public string GetRandomPrediction() 
+        public Prediction GetRandomPrediction() 
         { 
-            List<string> answers = GetAnswers();
+            List<Prediction> answers = GetAnswers();
             return answers[random.Next(0,answers.Count-1)];
         }
         public void AddPrediction(string newPrediction) => _predictionsRepository.SavePrediction(newPrediction);
@@ -29,7 +29,7 @@ namespace WebApplication1_2021_02_17_secondASPNET
         {
             _predictionsRepository.UpdatePrediction(new PredictionDto() { PredictionText = oldPrediction }, new PredictionDto() { PredictionText = newPrediction });
         }
-        public List<string> GetAnswers() => _predictionsRepository.GetAllPredictions().Select(dto=>new Prediction(dto.PredictionText).PredictionString).ToList();
+        public List<Prediction> GetAnswers() => _predictionsRepository.GetAllPredictions().Select(dto=>new Prediction(dto.PredictionText, dto.Id)).ToList();
 
     }
 }

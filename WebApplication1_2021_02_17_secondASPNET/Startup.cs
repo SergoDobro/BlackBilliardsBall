@@ -17,7 +17,8 @@ namespace WebApplication1_2021_02_17_secondASPNET
     {
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddSingleton(new PredictionsManager(new PredictionDatabaseInMemory()));
+            services.AddSingleton<IPredictionsRepository, PredictionDatabaseInMemory>();
+            services.AddSingleton<PredictionsManager>();
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(options => options.LoginPath = new PathString("/auth"));
             services.AddAuthorization();
         }
@@ -98,9 +99,9 @@ namespace WebApplication1_2021_02_17_secondASPNET
                 endpoints.MapGet("/getAnswers", async context =>
                 {
                     PredictionsManager pm = app.ApplicationServices.GetService<PredictionsManager>();
-                    string answer = pm.GetRandomPrediction();
+                    Prediction answer = pm.GetRandomPrediction();
 
-                    await context.Response.WriteAsync(answer);// + context.Request.Body);
+                    await context.Response.WriteAsync(answer.PredictionString);// + context.Request.Body);
                 });
                 endpoints.MapGet("/get_random_prediction", async context =>
                 {
@@ -148,6 +149,7 @@ namespace WebApplication1_2021_02_17_secondASPNET
                     //    pm.AddPrediction(text);
                     //    await context.Response.WriteAsync("successfully added");
                     PredictionsManager pm = app.ApplicationServices.GetService<PredictionsManager>();
+                    //object val = await context.Request.ReadFromJsonAsync<object>();
                     Prediction resp = await context.Request.ReadFromJsonAsync<Prediction>();
                     pm.AddPrediction(resp.PredictionString);
                     await context.Response.WriteAsync(resp.PredictionString);

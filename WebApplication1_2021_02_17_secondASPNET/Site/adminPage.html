@@ -57,7 +57,10 @@
             <script >
                 async function OnClick() {
                     //fetch("/addPrediction?" + document.getElementById("newPredictionsInput").value);
-                postData("/addPrediction", {text: document.getElementById("newPredictionsInput").value});
+                    postData("/addPrediction", {
+                        PredictionString: document.getElementById("newPredictionsInput").value,
+                        PredictionId: 0
+                    });
                 }    
                 async function postData(url = '', data = {}) {
                       // Default options are marked with *

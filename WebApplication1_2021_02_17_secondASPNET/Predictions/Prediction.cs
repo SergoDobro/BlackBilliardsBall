@@ -9,6 +9,9 @@ namespace WebApplication1_2021_02_17_secondASPNET
     {
         public string PredictionString { get; set; }
         public int PredictionId { get; set; }
+        public Prediction()
+        {
+        }
         public Prediction(string predictionString)
         {
             PredictionString = predictionString;

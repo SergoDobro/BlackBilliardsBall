@@ -161,12 +161,12 @@
                         var response = await correctResponse.json();
                         answerPlace.innerHTML = "";
                         for (var i = 0; i < response.answers.length; i++) {
-                            var name = '"' + "a" + i + '"';
-                            var inputter = "<input type='text' class='form-control' placeholder='New answer' aria-label='New answer' aria-describedby='button-addon2' id='in" + name + "' value='" + response.answers[i] + "'>";
+                            var name = '"' + "a" + (response.answers[i].predictionId + "_" + i) + '"';
+                            var inputter = "<input type='text' class='form-control' placeholder='New answer' aria-label='New answer' aria-describedby='button-addon2' id='in" + "a" + (response.answers[i].predictionId +"_" +i) + "' value='" + response.answers[i].predictionString + "'>";
                             answerPlace.innerHTML = ("<div id=" + name + " class=\"input-group mb-3\">" +
-                                "<button onclick='OnClickDel(" + '"' + response.answers[i] + '"' + ")' class='btn btn-outline-secondary btn-warning' type='button' id='btn" + i + "' style='width: 120px; height: 60px'>" +
+                                "<button onclick='OnClickDel(" + '"' + response.answers[i].predictionString + '"' + ")' class='btn btn-outline-secondary btn-warning' type='button' id='btn" + (response.answers[i].predictionId + "_" + i) + "' style='width: 120px; height: 60px'>" +
                                 " Delete </button>" +
-                                "<button onclick='OnClickRed(" + '"' + response.answers[i] + '"' + ", " + name +")' class='btn btn-outline-secondary btn-warning' type='button' id='btn" + i + "' style='width: 120px; height: 60px'>" +
+                                "<button onclick='OnClickRed(" + '"' + response.answers[i].predictionString + '"' + ", " + name +")' class='btn btn-outline-secondary btn-warning' type='button' id='btn" + i + "' style='width: 120px; height: 60px'>" +
                                 " Redact </button>"
                                 + inputter + "</div>") + answerPlace.innerHTML;
                         }
@@ -178,13 +178,16 @@
                             headers: {
                                 'Content-Type': 'application/json'
                             },
-                            body: JSON.stringify({ PredictionString: delet })
+                            body: JSON.stringify({
+                                PredictionString: delet,
+                                PredictionId: 0
+                            })
                         }).then((x) => GetPredictions());
                     }
                     async function OnClickRed(delet, myDiv) {
                         var curDiv = document.getElementById(myDiv);
                         //alert(curDiv.innerHTML);
-                        var name = "red" + myDiv;
+                        var name =  myDiv;
                         var help = '"';
                         curDiv.innerHTML +=  "<button onclick='OnClickRedCom(\"" + delet + "\", \"in" + name + "\")' class='btn btn-outline-secondary btn-warning' type='button' id='button-addon2' style='width:720px; height:60px'> Commit Changes </button>";
                         //await fetch("/removePrediction", {
