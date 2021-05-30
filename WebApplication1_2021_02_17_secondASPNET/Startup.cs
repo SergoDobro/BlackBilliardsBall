@@ -137,28 +137,9 @@ namespace WebApplication1_2021_02_17_secondASPNET
                 });
                 #endregion
                 #region Getter
-                //endpoints.MapGet("/getAnswers", async context =>
-                //{
-                //    PredictionsManager pm = app.ApplicationServices.GetService<PredictionsManager>();
-                //    Prediction answer = pm.GetRandomPrediction();
-
-                //    await context.Response.WriteAsync(answer.PredictionString);// + context.Request.Body);
-                //});
                 endpoints.MapGet("/get_random_prediction", async context =>
                 {
                     string table = context.Request.Headers[":path"][0].Split('?')[1];
-                    //foreach (var header in context.Request.Headers)
-                    //{
-                    //    table += $"<tr><td>||  {header.Key}</td><td>{header.Value}  ||</td></tr>";
-                    //}
-
-
-                    //////PredictionsManager pm = new PredictionsManager();
-                    //////var query = context.Request.Query;
-                    //////string text = context.Request.Headers[":path"].ToString().Split('?')[1];
-                    //////pm.AddPrediction(text);
-                    //////await context.Response.WriteAsync("successfully added");
-
                     await context.Response.WriteAsync(table);
                 });
                 endpoints.MapGet("/DoSomething", async context =>
@@ -173,46 +154,11 @@ namespace WebApplication1_2021_02_17_secondASPNET
                 });
                 #endregion
                 #region Post
-                endpoints.MapPost("/addPrediction", async context =>
-                {
-                    //    if (!context.Request.HasJsonContentType())
-                    //    {
-                    //        context.Response.StatusCode = StatusCodes.Status415UnsupportedMediaType;
-                    //        return;
-                    //    }
-
-                    //    //var resp = await context.Request.ReadFromJsonAsync<Dictionary<string, string>>();
-                    //    //string text = resp["text"];
-
-                    //    PredictionsManager pm = app.ApplicationServices.GetService<PredictionsManager>();
-                    //    //var query = context.Request.Query;
-                    //    //string text = query["newPrediction"];
-                    //    pm.AddPrediction(text);
-                    //    await context.Response.WriteAsync("successfully added");
-                    PredictionsManager pm = app.ApplicationServices.GetService<PredictionsManager>();
-                    //object val = await context.Request.ReadFromJsonAsync<object>();
-                    Prediction resp = await context.Request.ReadFromJsonAsync<Prediction>();
-                    pm.AddPrediction(resp.PredictionString);
-                    await context.Response.WriteAsync(resp.PredictionString);
-                });
                 endpoints.MapGet("/GetAllPredictions", async context =>
                 {
                     PredictionsManager pm = app.ApplicationServices.GetService<PredictionsManager>();
                     var answers = new { answers = pm.GetAnswers() };
                     await context.Response.WriteAsJsonAsync(answers);
-                });
-                endpoints.MapPost("/removePrediction", async context =>
-                {
-                    PredictionsManager pm = app.ApplicationServices.GetService<PredictionsManager>();
-                    Prediction resp = await context.Request.ReadFromJsonAsync<Prediction>();
-                    pm.RemovePrediction(resp.PredictionString);
-                    await context.Response.WriteAsync(resp.PredictionString);
-                });
-                endpoints.MapPut("/changePrediction", async context =>
-                {
-                    PredictionsManager pm = app.ApplicationServices.GetService<PredictionsManager>();
-                    PredictionChanged resp = await context.Request.ReadFromJsonAsync<PredictionChanged>();
-                    pm.ChangePrediction(resp.OldPredictionString, resp.NewPredictionString);
                 });
                 #endregion
                 #region commands executer
