@@ -52,3 +52,8 @@ D:\Програмирование\C# computer\3. C#4\С#-4\WebApplication1_2021_
 D:\Програмирование\C# computer\3. C#4\С#-4\WebApplication1_2021_02_17_secondASPNET\WebApplication1_2021_02_17_secondASPNET\bin\Debug\net5.0\SimpleWebApp.Repository.dll
 D:\Програмирование\C# computer\3. C#4\С#-4\WebApplication1_2021_02_17_secondASPNET\WebApplication1_2021_02_17_secondASPNET\bin\Debug\net5.0\SimpleWebApp.Repository.pdb
 D:\Програмирование\C# computer\3. C#4\С#-4\WebApplication1_2021_02_17_secondASPNET\WebApplication1_2021_02_17_secondASPNET\obj\Debug\net5.0\WebApplication1_2021_02_17_secondASPNET.csproj.CopyComplete
+D:\Програмирование\C# computer\3. C#4\С#-4\WebApplication1_2021_02_17_secondASPNET\WebApplication1_2021_02_17_secondASPNET\bin\Debug\net5.0\Site\registrationPage.html
+D:\Програмирование\C# computer\3. C#4\С#-4\WebApplication1_2021_02_17_secondASPNET\WebApplication1_2021_02_17_secondASPNET\bin\Debug\net5.0\System.Net.Http.Formatting.dll
+D:\Програмирование\C# computer\3. C#4\С#-4\WebApplication1_2021_02_17_secondASPNET\WebApplication1_2021_02_17_secondASPNET\bin\Debug\net5.0\System.Web.Http.dll
+D:\Програмирование\C# computer\3. C#4\С#-4\WebApplication1_2021_02_17_secondASPNET\WebApplication1_2021_02_17_secondASPNET\bin\Debug\net5.0\Newtonsoft.Json.dll
+D:\Програмирование\C# computer\3. C#4\С#-4\WebApplication1_2021_02_17_secondASPNET\WebApplication1_2021_02_17_secondASPNET\bin\Debug\net5.0\Newtonsoft.Json.Bson.dll

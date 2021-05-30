@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authentication;
 using WebApplication1_2021_02_17_secondASPNET.Repository;
+using WebApplication1_2021_02_17_secondASPNET.Repository.Users;
 
 namespace WebApplication1_2021_02_17_secondASPNET
 {
@@ -17,10 +18,14 @@ namespace WebApplication1_2021_02_17_secondASPNET
     {
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddSingleton<IUsersRepository, UsersDatabaseRepository>();
+            services.AddSingleton<UserDataManager>();
+
             services.AddSingleton<IPredictionsRepository, PredictionDatabaseInMemory>();
             services.AddSingleton<PredictionsManager>();
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(options => options.LoginPath = new PathString("/auth"));
             services.AddAuthorization();
+            services.AddControllers();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -37,10 +42,22 @@ namespace WebApplication1_2021_02_17_secondASPNET
 
             app.UseEndpoints(endpoints =>
             {
+                endpoints.MapControllerRoute(
+                    name: "default",
+                    pattern: "{controller}/{action}");
+            });
+
+            app.UseEndpoints(endpoints =>
+            {
                 #region pages
                 endpoints.MapGet("/auth", async context =>
                 {
                     string page = File.ReadAllText(@"Site/loginPage.html");
+                    await context.Response.WriteAsync(page);
+                });
+                endpoints.MapGet("/register", async context =>
+                {
+                    string page = File.ReadAllText(@"Site/registrationPage.html");
                     await context.Response.WriteAsync(page);
                 });
                 //endpoints.MapGet("/password", async context =>
@@ -51,28 +68,52 @@ namespace WebApplication1_2021_02_17_secondASPNET
                 endpoints.MapPost("/login", async context =>
                 {
                     Credentials requestedCredentials = await context.Request.ReadFromJsonAsync<Credentials>();
-                    Credentials FoundUserCredentials = new Credentials() { Login = "adm", Password = "123" };
-                    if (requestedCredentials.Login == FoundUserCredentials.Login && requestedCredentials.Password == FoundUserCredentials.Password)
+                    UserData user = app.ApplicationServices.GetService<UserDataManager>().GetUser(requestedCredentials.Login);
+                    if (user!=null)
                     {
-                        List<Claim> claims = new List<Claim>()
+                        if (requestedCredentials.Login == user.Login && requestedCredentials.Password == user.Password)
+                        {
+                            List<Claim> claims = new List<Claim>()
                         {
                             new Claim(ClaimsIdentity.DefaultNameClaimType, requestedCredentials.Login)
                         };// ������� ������ ClaimsIdentity
-                        ClaimsIdentity id = new ClaimsIdentity(claims, "ApplicationCookie", ClaimsIdentity.DefaultNameClaimType, ClaimsIdentity.DefaultRoleClaimType);
-                        await context.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(id));
+                            ClaimsIdentity id = new ClaimsIdentity(claims, "ApplicationCookie", ClaimsIdentity.DefaultNameClaimType, ClaimsIdentity.DefaultRoleClaimType);
+                            await context.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(id));
 
-                        context.Response.Redirect("/adminPage");
+                            context.Response.Redirect("/adminPage");
+
+                        }
+                        string answ = (requestedCredentials.Login == user.Login && requestedCredentials.Password == user.Password) ? "ok" : "no";
+
+                        await context.Response.WriteAsync(answ);
+                    }
+                    else
+                    {
 
                     }
-                    string answ = (requestedCredentials.Login == FoundUserCredentials.Login && requestedCredentials.Password == FoundUserCredentials.Password) ? "ok" : "no";
-
-                    await context.Response.WriteAsync(answ);
+                });
+                endpoints.MapPost("/registrate", async context =>
+                {
+                    UserRegistrationData newUsersData = await context.Request.ReadFromJsonAsync<UserRegistrationData>();
+                    UserDataManager userDataManager = app.ApplicationServices.GetService<UserDataManager>();
+                    UserData AddingUser = new UserData(newUsersData);
+                    userDataManager.RegistrateUser(AddingUser);
+                    await context.Response.WriteAsync("success");
                 });
 
                 endpoints.MapGet("/adminPage", async context =>
                 {
-                    string page = File.ReadAllText(@"Site/adminPage.html");
-                    await context.Response.WriteAsync(page);
+                    string login = context.User.Identity.Name;
+                    UserData user = app.ApplicationServices.GetService<UserDataManager>().GetUser(login);
+                    if (user!=null && user.Role == UserRole.Admin)
+                    {
+                        string page = File.ReadAllText(@"Site/adminPage.html");
+                        await context.Response.WriteAsync(page);
+                    }
+                    else
+                    {
+                        await context.Response.WriteAsync("alert(\"asd\")");
+                    }
                 }).RequireAuthorization();
                 endpoints.MapGet("/answers", async context =>
                 {
@@ -96,13 +137,13 @@ namespace WebApplication1_2021_02_17_secondASPNET
                 });
                 #endregion
                 #region Getter
-                endpoints.MapGet("/getAnswers", async context =>
-                {
-                    PredictionsManager pm = app.ApplicationServices.GetService<PredictionsManager>();
-                    Prediction answer = pm.GetRandomPrediction();
+                //endpoints.MapGet("/getAnswers", async context =>
+                //{
+                //    PredictionsManager pm = app.ApplicationServices.GetService<PredictionsManager>();
+                //    Prediction answer = pm.GetRandomPrediction();
 
-                    await context.Response.WriteAsync(answer.PredictionString);// + context.Request.Body);
-                });
+                //    await context.Response.WriteAsync(answer.PredictionString);// + context.Request.Body);
+                //});
                 endpoints.MapGet("/get_random_prediction", async context =>
                 {
                     string table = context.Request.Headers[":path"][0].Split('?')[1];

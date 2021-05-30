@@ -1,0 +1,120 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+</head>
+
+<body id="body">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+
+
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/">Predictions.com</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarText">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="/">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/predictions">Predictions</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/adminPage">Administrators room</a>
+                    </li>
+
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <table>
+        <tr>
+            <td><h3>Почта:</h3></td>
+            <td><input id="emailInput" type="text" size="10" /></td>
+        </tr>
+        <tr>
+            <td><h3>Логин:</h3></td>
+            <td><input id="loginInput" type="text" size="10" /></td>
+        </tr>
+        <tr>
+            <td><h3>Пароль:</h3></td>
+            <td><input id="passwordInput" type="password" size="10" />
+            <td>
+        </tr>
+        <tr>
+            <td><h3>Повторный пароль:</h3></td>
+            <td><input id="passwordInputCheck" type="password" size="10" />
+            <td>
+        </tr>
+        <tr>
+            <td colspan=2><center><button onclick="onClick()">Зарегистрироваться</button></center></td>
+        </tr>
+    </table>
+
+    <!--<a href="../adminPage">Go to admin page</a>
+    <a href="../predictions">Go to Predictions page</a>-->
+
+    <script>
+
+        window.onkeypress = event => {
+            if (event.key === "Enter") {
+                onClick();
+            }
+        };
+
+        async function onClick() {
+            let passwordInput = document.getElementById("passwordInput");
+            let loginInput = document.getElementById("loginInput");
+            let passwordInputCheck = document.getElementById("passwordInputCheck");
+            let emailInput = document.getElementById("emailInput");
+
+            if (passwordInput.value !== passwordInputCheck.value) {
+                alert("Пароли не совпадают!");
+            }
+            else {
+                var registrating = await fetch("/registrate",
+                    {
+                        method: 'Post',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            Login: loginInput.value,
+                            Password: passwordInput.value,
+                            Email: emailInput.value
+                        })
+                    });
+                var res = await auth.text();
+                if (res == "success") {
+                    alert("Success");
+                    //window.location = "../adminPage";
+                }
+                else {
+                    alert("failed");
+                }
+            }
+            //var auth = await fetch("/login", {
+            //    method: 'POST',
+            //    headers: {
+            //        'Content-Type': 'application/json'
+            //    },
+            //    body: JSON.stringify({
+            //        Login: loginInput.value,
+            //        Password: passwordInput.value
+            //    })
+
+            //});
+            //var res = await auth.text();
+
+
+        }
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
+</body>
+</html>
